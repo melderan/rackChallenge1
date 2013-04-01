@@ -4,11 +4,13 @@ Write a script that builds three 512 MB Cloud Servers that following a similar n
 (ie., web1, web2, web3) and returns the IP and login credentials for each server. Use any image you want.
 '''
 
-# Import Pyrax library
-import pyrax
+# Import Libraries
+import pyrax                    # Rackspace API
+import time                     # Time lib for sleep(seconds)
+from os.path import expanduser  # Expands '~' for user home folder
 
 # Set Authentication File
-pyrax.set_credential_file("/home/melderan/.rackspace_cloud_credentials")
+pyrax.set_credential_file(expanduser("~/.rackspace_cloud_credentials"))
 # Authenticate and get Cloud Servers handle
 cs = pyrax.cloudservers
 
@@ -43,6 +45,7 @@ while False in complete:
         if 'ACTIVE' in srv.status:
             complete[srvNum] = True
         newServers[srvNum] = srv
+    time.sleep(60)
 
 # Each server should be active now, print details
 for i in xrange(numNewServersToMake):

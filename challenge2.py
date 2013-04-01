@@ -3,11 +3,14 @@ Challenge 2 - Python
 Write a script that clones a server (takes an image and deploys the image as a new server).
 '''
 
-# Import Pyrax library
-import pyrax
+# Import Libraries
+import pyrax                    # Rackspace API
+import time                     # Time lib for sleep(seconds)
+from os.path import expanduser  # Expands '~' for user home folder
 
 # Set Authentication File
-pyrax.set_credential_file("/home/melderan/.rackspace_cloud_credentials")
+pyrax.set_credential_file(expanduser("~/.rackspace_cloud_credentials"))
+
 # Authenticate and get Cloud Servers handle
 cs = pyrax.cloudservers
 
@@ -25,6 +28,7 @@ flv = [i for i in cs.flavors.list() if i.ram == img.minRam][0]
 
 # Wait till image is done
 while 'ACTIVE' not in img.status:
+    time.sleep(60)
     img = [i for i in cs.images.list() if '-Challenge2' in i.name][0]
 
 # Now that the image is done, do the same from challenge 1
@@ -40,6 +44,7 @@ password = srv.adminPass
 
 # Lets test the server until its Active
 while 'ACTIVE' not in srv.status:
+    time.sleep(60)
     srv = cs.servers.get(srv.id)
 
 # server should be active now, print details
