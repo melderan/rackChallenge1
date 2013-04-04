@@ -21,6 +21,7 @@ args = parser.parse_args()
 
 # Set Authentication File
 pyrax.set_credential_file(expanduser(args.credentials))
+
 # Authenticate and get Cloud Servers handle
 cs = pyrax.cloudservers
 
