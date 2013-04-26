@@ -56,11 +56,14 @@ while False in complete:
 clbNodes = []
 # Create a node for each server
 for srv in newServers:
-    clbNodes.append(clb.Node(address=srv.networks['private'][0], port=80, condition="Enabled"))
+    srv_ip = srv.networks["private"][0]
+    clbNodes.append(clb.Node(address=srv_ip, port=80, condition="ENABLED"))
+
 # Generate a VIP
 clbVip = clb.VirtualIP(type='PUBLIC')
+
 # Make the LB
-lb = clb.create("Challenge 7", port=80, protocol='HTTP', nodes=clbNodes, virtual_ips=[vip])
+lb = clb.create("Challenge_7", port=80, protocol="HTTP", nodes=clbNodes, virtual_ips=[clbVip])
 
 # Lets wait till the LB is done
 while 'ACTIVE' not in lb.status:
