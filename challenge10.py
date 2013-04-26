@@ -94,11 +94,15 @@ domainName = 'wilylight.info'
 # Make the DNS record
 domain = [dom for dom in dns.get_domain_iterator() if domainName in dom.name][0]
 
+# Get the vip of the lb
+for vip in lb.virtual_ips:
+	lb_ip = vip.address
+
 # Record to add
 record = [{
 	"type":"A",
 	"name":"challenge10.wilylight.info",
-	"data":clbVip
+	"data":lb_ip
 }]
 
 # Add it
