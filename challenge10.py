@@ -110,10 +110,24 @@ dns.add_records(domain, record)
 
 # Add a load balancer health monitor
 lb.add_health_monitor(type="CONNECT", delay=10, timeout=10, attemptsBeforeDeactivation=3)
+time.sleep(30)
+lb = clb.get(lb.id)
+
+# Lets wait agian till the LB is done
+while 'ACTIVE' not in lb.status:
+    lb = clb.get(lb.id)
+    time.sleep(60)
 
 # Add a customer error page
-html = '<html><head><title>Challenge10 - Error!</title></head><body><h1>This is normal.  Challenge10 says so!</h1></body></html>'
+html = "<html><head><title>Challenge10 - Error!</title></head><body><h1>This is normal.  Challenge10 says so!</h1></body></html>"
 lb.set_error_page(html)
+time.sleep(30)
+lb = clb.get(lb.id)
+
+# Lets wait some more till the LB is done
+while 'ACTIVE' not in lb.status:
+    lb = clb.get(lb.id)
+    time.sleep(60)
 
 # Write it to a file and upload it to cloud files
 with open('challenge10-error_page.html','w') as fh:
