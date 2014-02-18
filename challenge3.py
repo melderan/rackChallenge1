@@ -37,7 +37,7 @@ if args.container not in cf.list_containers():
 else:
     cont = [c for c in cf.get_all_containers() if c.name == args.container][0]
 
-print 'Begin Transfer: '.
+print 'Begin Transfer: '
 upload_key, totalSize = cf.upload_folder(args.localPath, container=(cont.name))
 transfer = cf.get_uploaded(upload_key)
 while transfer < totalSize:
